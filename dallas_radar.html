@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+	<style type="text/css">
+		/* http://meyerweb.com/eric/tools/css/reset/    v2.0 | 20110126   License: none (public domain) */
+		html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+		article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+		body { line-height: 1; }
+		ol, ul { list-style: none; }
+		blockquote, q { quotes: none; }
+		blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+		table { border-collapse: collapse; border-spacing: 0; }
+		
+		body, div, input, select, th, td { font-family: Verdana; font-size: 13px; }
+		
+		#container { display: table; width: 100%; padding: 10px 0; }
+			#container .image { float: left; width: 640px !important; padding: 15px; width: 670px; vertical-align: top; }
+				#image { margin: 0; }
+				#log { list-style: disc; margin-left: 10px; padding-left: 10px; }
+					#log li { margin-left: 10px; padding-left: 10px; }
+			#form { float: left; width: 400px; margin: 0; padding: 15px; vertical-align: top; }
+				#form label { display: inline-block; width: calc((100% / 2) - 6px); padding: 3px; margin-bottom: 10px; }
+					#form label:hover { background-color: #f0f0f0; }
+					#form label span { display: block; margin-bottom: 5px; margin-right: 10px; }
+					#form label .input { margin-bottom: 15px; }
+					#form label select {  }
+				#form input[type="submit"] {  }
+		
+		@media all and (min-height: 520px) {
+			#container { position: relative; padding-left: 670px; }
+				#container .image { position: fixed; top: 15px; left: 15px; }
+		}
+	</style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<body>
+	
+	<div id="container">
+		<div class="image">
+			<img src="" id="image" />
+			<ul id="log"></ul>
+		</div>
+		<div id="form">
+			
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		/*
+			http://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?station=DFW&brand=wui&num=50&delay=7&type=TR2&frame=0&scale=1.000&noclutter=0&showstorms=1&mapx=400&mapy=240&centerx=400&centery=240&transx=-50&transy=50&showlabels=1&severe=1&rainsnow=0&lightning=0&smooth=0&rand=23301907&lat=0&lon=0&label=you
+			
+			http://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map
+				station=DFW
+				brand=wui
+				num=50
+				delay=7
+				type=TR2
+				frame=0
+				scale=1.000
+				noclutter=0
+				showstorms=1
+				mapx=400
+				mapy=240
+				centerx=400
+				centery=240
+				transx=-50
+				transy=50
+				showlabels=1
+				severe=1
+				rainsnow=0
+				lightning=0
+				smooth=0
+				rand=23301907
+				lat=0
+				lon=0
+				label=you
+		
+		
+		*/
+		
+		;jQuery(document).ready(function($) {
+			var defaults = {
+				'station':		{
+					'title':	"Station",
+					'default':	"DFW",
+				},
+				'brand':		{
+					'title':	"Brand",
+					'default':	"wui",
+				},
+				'num':			{
+					'title':	"Num",
+					'default':	"50",
+				},
+				'delay':		{
+					'title':	"Delay",
+					'default':	"7",
+				},
+				'type':			{
+					'title':	"Type",
+					'default':	"TR2",
+				},
+				'frame':		{
+					'title':	"Frame",
+					'default':	"0",
+				},
+				'scale':		{
+					'title':	"Scale",
+					'default':	"1.000",
+				},
+				'noclutter':	{
+					'title':	"No Clutter",
+					'type':		"bool",
+					'default':	"0",
+				},
+				'showstorms':	{
+					'title':	"Show Storms",
+					'type':		"bool",
+					'default':	"1",
+				},
+				'mapx':			{
+					'title':	"Map X",
+					'default':	"400",
+				},
+				'mapy':			{
+					'title':	"Map Y",
+					'default':	"240",
+				},
+				'centerx':		{
+					'title':	"Center X",
+					'default':	"400",
+				},
+				'centery':		{
+					'title':	"Center Y",
+					'default':	"240",
+				},
+				'transx':		{
+					'title':	"Trans X",
+					'default':	"-50",
+				},
+				'transy':		{
+					'title':	"Trans Y",
+					'default':	"50",
+				},
+				'showlabels':	{
+					'title':	"Labels",
+					'type':		"bool",
+					'default':	"1",
+				},
+				'severe':		{
+					'title':	"Severe",
+					'type':		"bool",
+					'default':	"1",
+				},
+				'rainsnow':		{
+					'title':	"Rain/Snow",
+					'type':		"bool",
+					'default':	"0",
+				},
+				'cloud':		{
+					'title':	"Clouds",
+					'type':		"bool",
+					'default':	"1",
+				},
+				'lightning':	{
+					'title':	"Lightning",
+					'type':		"bool",
+					'default':	"0",
+				},
+				'smooth':		{
+					'title':	"Smooth",
+					'type':		"bool",
+					'default':	"0",
+				},
+				'lat':			{
+					'title':	"Latitude",
+					'default':	"0",
+				},
+				'lon':			{
+					'title':	"Longitude",
+					'default':	"0",
+				},
+				'label':		{
+					'title':	"Label",
+					'default':	"you"
+				},
+			};
+			
+			(function() {
+				var k, html = [];
+				
+				for(k in defaults) {
+					if(defaults.hasOwnProperty(k)) {
+						html.push("<label for=\"input__"+ k +"\">");
+						html.push("<span>"+ defaults[k].title +":</span>");
+						
+						if(('type' in defaults[k]) && ("bool" === defaults[k].type)) {
+							// boolean
+							html.push("<select class=\"update_radar\" id=\"input__"+ k +"\">");
+							html.push("<option value=\"0\""+ (("0" == defaults[k].default)?" selected=\"selected\"":"") +">No</option>");
+							html.push("<option value=\"1\""+ (("1" == defaults[k].default)?" selected=\"selected\"":"") +">Yes</option>");
+							html.push("</select>");
+						} else {
+							html.push("<input type=\"text\" class=\"update_radar\" id=\"input__"+ k +"\" value=\""+ defaults[k].default +"\" placeholder=\""+ defaults[k].title +"\" />");
+						}
+						
+						html.push("</label>");
+					}
+				}
+				
+				html.push("<p><input type=\"button\" id=\"update_radar\" value=\"Update\" /> <input type=\"reset\" value=\"Reset Form\" /></p>");
+				
+				$("#form").html( html.join("") );
+			}());
+			
+			function updateRadar() {
+				var image_url = "http://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map",
+					k, params = [], date = new Date();
+				
+				for(k in defaults) {
+					params.push(k +"="+ encodeURIComponent($("#input__"+ k).val()));
+				}
+				
+				params.push("rand="+ Math.round((Math.random() * 100000)));
+				
+				$("#image").attr('src', image_url +"?"+ params.join("&"));
+				
+				$("#log").prepend("<li>updated: "+ date.getHours() +":"+ date.getMinutes() +":"+ date.getSeconds() +"</li>");
+				
+				if($("#log li").length > 10) {
+					$("#log li:nth-child(n+11)").empty().remove();
+				}
+			}
+			
+			updateRadar();
+			
+			window.setInterval(function() {
+				
+			}, 30000);
+			
+			$(".update_radar").on('change', function() {
+				updateRadar();
+			});
+			
+			$("#update_radar").on('click', function() {
+				updateRadar();
+			});
+		});
+	</script>
+</body>
+</html>
